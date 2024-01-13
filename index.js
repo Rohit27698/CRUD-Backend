@@ -2,10 +2,12 @@ const express = require("express")
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 require("dotenv").config()
+const cors = require("cors")
 
 const {Usermodel} = require("./models/User.model")
 const {connection} = require("./config/db")
 const {todoRouter} = require("./routes/todo.routes")
+const {Authenticate} = require("./middlewares/Authenticate")
 
 const app = express();
 
@@ -51,6 +53,7 @@ app.post("/login", async (req, res) => {
     });
 })
 
+app.use(Authenticate)
 app.use("/todos",todoRouter)
 
 app.listen(8080, async () => {
