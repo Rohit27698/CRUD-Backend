@@ -62,8 +62,9 @@ app.post("/login", async (req, res) => {
 
 app.use(Authenticate)
 app.use("/todos",todoRouter)
+const PORT=process.env.PORT
 
-app.listen(30001, async () => {
+app.listen(PORT, async () => {
     try{
         await connection
         console.log("connected to mongodb successfully")
@@ -71,6 +72,6 @@ app.listen(30001, async () => {
     catch(err){
         console.log("error connecting to DB")
         console.log(err)
-    }
-    console.log("listening on PORT 30001")
+    } 
+    console.log(`listening on PORT ${PORT}`)
 })
