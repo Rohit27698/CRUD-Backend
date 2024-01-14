@@ -35,6 +35,13 @@ app.post("/signup", async (req, res) => {
    }
 })
 
+
+app.get("/check", async (req, res) => {
+   
+    const user = await Usermodel.find()
+    res.send({user});
+})
+ 
 app.post("/login", async (req, res) => {
     const {email, password} = req.body;
     const user = await Usermodel.findOne({email})
@@ -43,12 +50,12 @@ app.post("/login", async (req, res) => {
     }
     const hash = user?.password
     bcrypt.compare(password, hash, function(err, result) {
-        if(result){
-            const token = jwt.sign({ userID : user._id}, process.env.JWT_SECRET);
+        if(result){ 
+            const token = jwt.sign({ userID : user._id}, process.env.SECRET_KEY);
             res.send({message : "login successfull", token : token})
         }
         else{
-            res.send({message : "login failed"})
+            res.send({message : "login failed"})  
         }
     });
 })
@@ -56,7 +63,7 @@ app.post("/login", async (req, res) => {
 app.use(Authenticate)
 app.use("/todos",todoRouter)
 
-app.listen(8080, async () => {
+app.listen(30001, async () => {
     try{
         await connection
         console.log("connected to mongodb successfully")
@@ -65,5 +72,5 @@ app.listen(8080, async () => {
         console.log("error connecting to DB")
         console.log(err)
     }
-    console.log("listening on PORT 8080")
+    console.log("listening on PORT 30001")
 })

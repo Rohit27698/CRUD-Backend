@@ -5,13 +5,14 @@ const {Todomodel} = require("../models/Todo.model")
 const todoRouter = express.Router();
 
 todoRouter.get("/", async (req, res) => {
-    const todos = await Todomodel.find()
+    const todos = await Todomodel.find({user_id:req.userID})
     res.send({"todos" : todos})
 })
-todoRouter.post("/create", async (req, res) => {
-    const {title, description, category} = req.body;
+todoRouter.post("/", async (req, res) => {
+    const {title, description,status} = req.body;
     const user_id = req.userID
-    const todos = await Todomodel.create({title, description, category, user_id})
+    const todos = await Todomodel.create({title, description, user_id, status})
+    
     res.send({"todos" : todos})
 })
 
@@ -28,7 +29,7 @@ todoRouter.patch("/:todoID", async (req, res) => {
     else{
         await Todomodel.findByIdAndUpdate(todoID, payload)
         res.send({"message" : `todo ${req.params.todoID} successfully updated`})
-    }
+    }  
 })
 
 
