@@ -27,7 +27,7 @@ todoRouter.patch("/:todoID", async (req, res) => {
         res.send({"message" : `You are not userised to do this`})
     }
     else{
-        await Todomodel.findByIdAndUpdate(todoID, payload)
+        await Todomodel.findByIdAndUpdate(todoID, payload) 
         res.send({"message" : `todo ${req.params.todoID} successfully updated`})
     }  
 })

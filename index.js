@@ -52,7 +52,7 @@ app.post("/login", async (req, res) => {
     bcrypt.compare(password, hash, function(err, result) {
         if(result){ 
             const token = jwt.sign({ userID : user._id}, process.env.SECRET_KEY);
-            res.send({message : "login successfull", token : token})
+            res.send({message : "login successfull", token : token , user: user})
         }
         else{
             res.send({message : "login failed"})  
